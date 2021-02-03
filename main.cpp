@@ -15,38 +15,48 @@ void erase();	//Удаляет значение из массива по ука�
 #include<iostream>
 
 void FillRand(int arr[], const int n);
+void FillRand(int ** arr, const int m, const int n);
 void Print(int arr[], const int n);
+void Print(int ** arr, const int m, const int n);
+
 void push_back_mutable(int*& arr, int& n, int value);
 void push_front_mutable(int*& arr, int& n, int value);
+
 void insert_mutable(int*& arr, int& n, int value, int index); //Вставляет значение в массив по указанному индексу;
+
 void pop_back_mutable(int*& arr, int& n); //Удаляет значение с конца массива
 void pop_front_mutable(int*& arr, int& n); //Удаляет значение с начала массива
+
 void erase_mutable(int*& arr, int& n, int index); //Удаляет значение из массива по указанному индексу
 
 #define DELIMETR std::cout <<"==============================================\n"
 
-
 //#define HW_ADD_VALUE
+
 //#define CW_ADD_VALUE
+
 //#define HW_ADD_INSERT //Вставляет значение в массив по указанному индексу;
 //#define HW_ADD_POP_BACK //Удаляет значение с конца массива
 //#define HW_ADD_POP_FRONT //Удаляет значение с начала массива
-#define HW_ADD_ERASE //Удаляет значение из массива по указанному индексу
+//#define HW_ADD_ERASE //Удаляет значение из массива по указанному индексу
 
-
+//#define DYNAMIC_MEMORY_1
+#define DYNAMIC_MEMORY_2
 
 void main()
 {
 	setlocale(LC_ALL, "Russian");
+
+#ifdef DYNAMIC_MEMORY_1
 	int n;
 	std::cout << "Введите размер массива: "; std::cin >> n;
 	int* arr = new int[n];
 
 	FillRand(arr, n);
 	Print(arr, n);
-	
+
 	int value; //Значение для передачи в массив
-	int index=0; //Индекс для передачи в массив
+	int index = 0; //Индекс для передачи в массив
 
 	//std::cout << "Введите значение: "; std::cin >> value;
 
@@ -63,7 +73,7 @@ void main()
 
 	delete[] brr;
 #endif // HW_ADD_VALUE
-	
+
 #ifdef CW_ADD_VALUE
 	std::cout << "Введите значение: "; std::cin >> value;
 
@@ -139,6 +149,37 @@ void main()
 
 	//Удалили указатель на массив.
 	delete[] arr;
+#endif // DYNAMIC_MEMORY_1
+
+#ifdef DYNAMIC_MEMORY_2
+
+	int m=0;//Количество строк
+	int n=0;//Количество столбцов(элементов строки)
+
+	std::cout << "Введите количество строк: "; std::cin >> m;
+	std::cout << "Введите количество элементов строки: "; std::cin >> n;
+	//1. Создаём массив указателей:
+	int** arr = new int* [m];
+	//2. Выделяем память для строк двумерного динамического массива:
+	for (int i = 0; i < m; i++)
+	{
+		arr[i] = new int[n];
+	}
+	//3. Работа с двумерным динамическим массивом:
+	FillRand(arr, m, n);
+
+	Print(arr, m,n);
+
+	//4. Удаление двумерного динамического массива
+	for (int i = 0; i < m; i++)
+	{
+		delete[] arr[i];
+	}
+	delete[] arr;
+
+#endif // DYNAMIC_MEMORY_2
+
+
 	std::cout << "Программа завершена.";
 }
 
@@ -150,6 +191,17 @@ void FillRand(int arr[], const int n)
 	}
 }
 
+void FillRand(int ** arr, const int m, const int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			arr[i][j] = rand() % 100;
+		}
+	}
+}
+
 void Print(int arr[], const int n)
 {
 	for (int i = 0; i < n; i++)
@@ -157,6 +209,19 @@ void Print(int arr[], const int n)
 		std::cout << arr[i] << "  ";
 	}
 	std::cout << std::endl << std::endl;
+}
+
+void Print(int ** arr, const int m, const int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			std::cout.width(3);
+			std::cout << arr[i][j] << "  ";
+		}
+		std::wcout << "\n";
+	}
 }
 
 void push_back_mutable(int*& arr, int& n, int value)
@@ -197,37 +262,39 @@ void push_front_mutable(int*& arr, int& n, int value)
 void insert_mutable(int*& arr, int& n, int value, int index)
 {//Вставляет значение в массив по указанному индексу;
 	//1. Создаём буферный массив.
-	int* buffer = new int[n+1]{};
+	int* buffer = new int[++n]{};
 	//2. Копируем исходный массив в буферный массив и сразу вставляем элемент по индексу.
-	for (int i = 0; i < n+1; i++)
+			//buffer[index] = value;
+	//for (int i = 0; i < n; i++)
+	//{
+	//	if (i < index)
+	//	{
+	//		buffer[i] = arr[i];
+	//	}
+	//	else if (i>index)
+	//	{
+	//		buffer[i] = arr[i-1];
+	//	}
+	//}
+
+	for (int i = 0; i < n; i++)
 	{
-		if (i == index)
-		{
-			buffer[i] = value;
-		}
-		else if (i < index)
-		{
-			buffer[i] = arr[i];
-		}
-		else
-		{
-			buffer[i] = arr[i-1];
-		}
+		buffer[i] = i < index ? arr[i] : i>index ? arr[i - 1] : value;
 	}
+
 	//3. Удаляем исходный массив.
 	delete[] arr;
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
 	//5. Увеличиваем размер массива 'n'
-	n++;
 }
 
 void pop_back_mutable(int*& arr, int& n)
 {//Удаляет значение с конца массива
 	//1. Создаём буферный массив.
-	int* buffer = new int[n-1]{};
+	int* buffer = new int[--n]{};
 	//2. Копируем исходный массив в буферный массив. Исключая последний элемент.
-	for (int i = 0; i < n-1; i++)
+	for (int i = 0; i < n; i++)
 	{
 			buffer[i] = arr[i];
 	}
@@ -235,16 +302,14 @@ void pop_back_mutable(int*& arr, int& n)
 	delete[] arr;
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
-	//5. Увеличиваем размер массива 'n'
-	n--;
 }
 
 void pop_front_mutable(int*& arr, int& n)
 {//Удаляет значение с начала массива
 	//1. Создаём буферный массив.
-	int* buffer = new int[n-1]{};
+	int* buffer = new int[--n]{};
 	//2. Копируем исходный массив в буферный массив со сдвигом.
-	for (int i = 0; i < n-1; i++)
+	for (int i = 0; i < n; i++)
 	{
 			buffer[i] = arr[i+1];
 	}
@@ -252,8 +317,6 @@ void pop_front_mutable(int*& arr, int& n)
 	delete[] arr;
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
-	//5. Увеличиваем размер массива 'n'
-	n--;
 }
 
 void erase_mutable(int*& arr, int& n, int index)
