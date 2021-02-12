@@ -2,7 +2,7 @@
 
 int** Allocate(const int m, const int n);
 
-void FillRand(int arr[], const int n);
+void FillRand(int arr[], const int n, int minRand =0, int maxRand =100);
 void FillRand(int** arr, const int m, const int n);
 void Print(int arr[], const int n);
 void Print(int** arr, const int m, const int n);
@@ -12,26 +12,38 @@ void Push_back_mutable(int*& arr, int& n, int value);
 void Push_front_mutable(int*& arr, int& n, int value);
 
 void Push_row_back(int**& arr, int& m, const int n); //Добавляет строку в конец двумерного динамического массива
+void Push_row_back_opt(int**& arr, int& m, const int n); //Добавляет строку в конец двумерного динамического массива
 void Push_row_front(int**& arr, int& m, const int n); //Добавляет строку в начало двумерного динамического массива
+void Push_row_front_opt(int**& arr, int& m, const int n); //Добавляет строку в начало двумерного динамического массива
 void Push_col_back(int**& arr, const int m, int& n); //Добавляет столбик в конец двумерного динамического массива
+void Push_col_back_opt(int**& arr, const int m, int& n); //Добавляет столбик в конец двумерного динамического массива
 void Push_col_front(int**& arr, const int m, int& n); //Добавляет столбик в начало двумерного динамического массива
+void Push_col_front_opt(int**& arr, const int m, int& n); //Добавляет столбик в начало двумерного динамического массива
 
 
 void Insert_mutable(int*& arr, int& n, int value, int index); //Вставляет значение в массив по указанному индексу;
 void Insert_row(int**& arr, int& m, int n, int index); //Вставляет строку в массив по указанному индексу;
+void Insert_row_opt(int**& arr, int& m, int n, int index); //Вставляет строку в массив по указанному индексу;
 void Insert_col(int**& arr, const int m, int& n, int index); //Вставляет столвик в массив по указанному индексу;
+void Insert_col_opt(int**& arr, const int m, int& n, int index); //Вставляет столвик в массив по указанному индексу;
 
 void Pop_back_mutable(int*& arr, int& n); //Удаляет значение с конца массива
 void Pop_front_mutable(int*& arr, int& n); //Удаляет значение с начала массива
 
 void Pop_row_back(int**& arr, int& m, const int n); //Удаляет строку в конеце двумерного динамического массива
+void Pop_row_back_opt(int**& arr, int& m, const int n); //Удаляет строку в конеце двумерного динамического массива
 void Pop_row_front(int**& arr, int& m, const int n); //Удаляет строку в начале двумерного динамического массива
+void Pop_row_front_opt(int**& arr, int& m, const int n); //Удаляет строку в начале двумерного динамического массива
 void Pop_col_back(int**& arr, const int m, int& n); //Удаляет столбик в конеце двумерного динамического массива
+void Pop_col_back_opt(int**& arr, const int m, int& n); //Удаляет столбик в конеце двумерного динамического массива
 void Pop_col_front(int**& arr, const int m, int& n); //Удаляет столбик в начале двумерного динамического массива
+void Pop_col_front_opt(int**& arr, const int m, int& n); //Удаляет столбик в начале двумерного динамического массива
 
 void Erase_mutable(int*& arr, int& n, int index); //Удаляет значение из массива по указанному индексу
 void Erase_row(int**& arr, int& m, const int n, int index); //Удаляет строку из двумерного динамического массива по указанному индексу
+void Erase_row_opt(int**& arr, int& m, const int n, int index); //Удаляет строку из двумерного динамического массива по указанному индексу
 void Erase_col(int**& arr, const int m, int& n, int index); //Удаляет столбик из двумерного динамического массива по указанному индексу
+void Erase_col_opt(int**& arr, const int m, int& n, int index); //Удаляет столбик из двумерного динамического массива по указанному индексу
 
 void Clear(int** arr, const int m); // Удаляет двумерный динамический массив
 
@@ -83,13 +95,15 @@ void erase();	//Удаляет значение из массива по ука�
 15. Написать функцию ??? erase_col(???), которая удаляет столбик из двумерного динамического массива по указанному индексу;
 */
 
+//#define IZDEVATELSTVO
+
 void main()
 {
 	setlocale(LC_ALL, "Russian");
 
 	int m=20000;//Количество строк 
 	int n=25000;//Количество столбцов(элементов строки)
-	int index = 0;//Индекс для произведения мутаций массива
+	int index = 1;//Индекс для произведения мутаций массива
 
 #ifdef DYNAMIC_MEMORY_1
 	int n;
@@ -225,8 +239,8 @@ void main()
 
 #ifdef HW_ADD_2021_02_03
 
-	std::cout << "Введите количество строк: "; std::cin >> m;
-	std::cout << "Введите количество элементов строки: "; std::cin >> n;
+	//std::cout << "Введите количество строк: "; std::cin >> m;
+	//std::cout << "Введите количество элементов строки: "; std::cin >> n;
 
 	//1. Создаём массив указателей и выделяем память для строк двумерного динамического массива:
 	int** arr = Allocate(m, n);
@@ -244,14 +258,14 @@ void main()
 	DELIMETR;
 
 	//std::cout << "Appending row..." << endl;
-	Push_row_back(arr, m, n); //Добавление строки в конец двумерного динамического массива
+	Push_row_back_opt(arr, m, n); //Добавление строки в конец двумерного динамического массива
 	std::cout << "Добавляена строка в конец двумерного динамического массива:\n";
 	//std::cout << "Row appended" << std::endl;
 	Print(arr, m, n); //Вывод массива в консоль
 	DELIMETR;
 
 	//std::cout << "Appending row..." << endl;
-	Push_row_front(arr, m, n); //Добавление строки в начоло двумерного динамического массива
+	Push_row_front_opt(arr, m, n); //Добавление строки в начоло двумерного динамического массива
 	std::cout << "Добавляена строка в начало двумерного динамического массива:\n";
 	//std::cout << "Row appended" << std::endl;
 	Print(arr, m, n); //Вывод массива в консоль
@@ -263,7 +277,7 @@ void main()
 		std::cout << "Вставить строку по индексу: "; std::cin >> index; //Запросить индекс для добавления строки
 	} while (index < 0 || index > m);
 	//std::cout << "Insert row..." << endl;
-	Insert_row(arr, m, n, index); //Добавление строки по индексу в двумерный динамический массив
+	Insert_row_opt(arr, m, n, index); //Добавление строки по индексу в двумерный динамический массив
 	std::cout << "Добавляена строка по индексу в двумерный динамический массив:\n";
 	//std::cout << "Row appended" << std::endl;
 	Print(arr, m, n); //Вывод массива в консоль
@@ -276,8 +290,8 @@ void main()
 
 #ifdef HW_ADD_2021_02_05
 
-	std::cout << "Введите количество строк: "; std::cin >> m;
-	std::cout << "Введите количество элементов строки: "; std::cin >> n;
+	//std::cout << "Введите количество строк: "; std::cin >> m;
+	//std::cout << "Введите количество элементов строки: "; std::cin >> n;
 	//1. Создаём массив указателей и выделяем память для строк двумерного динамического массива:
 	int** arr = Allocate(m, n);
 	std::cout << "Memory allocated" << std::endl;
@@ -286,74 +300,91 @@ void main()
 	FillRand(arr, m, n);
 	std::cout << "Array fill" << std::endl;
 
-	std::cout << "Appending col back... ";
-	Push_col_back(arr, m, n);
-	std::cout << "Col back append." << std::endl;
+	std::cout << "Appending col back... --opt\t";
+	Push_col_back_opt(arr, m, n);
+	std::cout << "Col back append. --opt" << std::endl;
 
-	std::cout << "Appending col front... ";
-	Push_col_front(arr, m, n);
-	std::cout << "Col front append." << std::endl;
+	std::cout << "Appending col front... --opt\t";
+	Push_col_front_opt(arr, m, n);
+	std::cout << "Col front append. --opt" << std::endl;
 
 	DELIMETR;
-	Print(arr, m, n);
+	//Print(arr, m, n);
 	do
 	{//Проверка выхода за пределы массива
-		std::cout << "Вставить столбец по индексу (0 - "<<n<<"): "; std::cin >> index; //Запросить индекс
+		//std::cout << "Вставить столбец по индексу (0 - "<<n<<"): "; std::cin >> index; //Запросить индекс
 		if (index < 0 || index > n) std::cout << "Error. Выход за пределы масива. Повторите ввод." << std::endl; //Выход за пределы!!!
 	} while (index < 0 || index > n);
-	std::cout << "Insert col of index... ";
-	Insert_col(arr, m, n, index);
-	std::cout << "Col of index insert" << std::endl;
+	std::cout << "Insert col of index... --opt\t";
+	Insert_col_opt(arr, m, n, index);
+	std::cout << "Col of index insert --opt" << std::endl;
 
 	DELIMETR;
-	Print(arr, m, n);
+	//Print(arr, m, n);
 
-	std::cout << "Poping row back... ";
-	Pop_row_back(arr, m, n);
-	std::cout << "Row back pop" << std::endl;
+	std::cout << "Poping row back... --opt\t";
+	Pop_row_back_opt(arr, m, n);
+	std::cout << "Row back pop --opt" << std::endl;
 
-	std::cout << "Poping row front... ";
-	Pop_row_front(arr, m, n);
-	std::cout << "Row front pop" << std::endl;
+	std::cout << "Poping row front... --opt\t";
+	Pop_row_front_opt(arr, m, n);
+	std::cout << "Row front pop --opt" << std::endl;
 
 	DELIMETR;
-	Print(arr, m, n);
+	//Print(arr, m, n);
 	do
 	{//Проверка выхода за пределы массива
-		std::cout << "Удалить строку по индексу (0 - " << m - 1 << "): "; std::cin >> index; //Запросить индекс
+		//std::cout << "Удалить строку по индексу (0 - " << m - 1 << "): "; std::cin >> index; //Запросить индекс
 		if (index < 0 || index >= m) std::cout << "Error. Выход за пределы масива. Повторите ввод." << std::endl; //Выход за пределы!!!
 	} while (index < 0 || index >= m);
-	std::cout << "Erasing row of index... ";
-	Erase_row(arr, m, n, index);
-	std::cout << "Row of index erase" << std::endl;
+	std::cout << "Erasing row of index... --opt\t";
+	Erase_row_opt(arr, m, n, index);
+	std::cout << "Row of index erase --opt" << std::endl;
 
-	std::cout << "Poping col back... ";
-	Pop_col_back(arr, m, n);
-	std::cout << "Col back pop" << std::endl;
+	std::cout << "Poping col back... --opt\t";
+	Pop_col_back_opt(arr, m, n);
+	std::cout << "Col back pop --opt" << std::endl;
 
-	std::cout << "Poping col front... ";
-	Pop_col_front(arr, m, n);
-	std::cout << "Col front pop" << std::endl;
+	std::cout << "Poping col front... --opt\t";
+	Pop_col_front_opt(arr, m, n);
+	std::cout << "Col front pop --opt" << std::endl;
 
 	DELIMETR;
-	Print(arr, m, n);
+	//Print(arr, m, n);
 	do
 	{//Проверка выхода за пределы массива
-		std::cout << "Удалить колонку по индексу (0 - " << n - 1 << "): "; std::cin >> index; //Запросить индекс
+		//std::cout << "Удалить колонку по индексу (0 - " << n - 1 << "): "; std::cin >> index; //Запросить индекс
 		if (index < 0 || index >= n) std::cout << "Error. Выход за пределы масива. Повторите ввод." << std::endl; //Выход за пределы!!!
 	} while (index < 0 || index >= n);
-	std::cout << "Erasing col of index... ";
-	Erase_col(arr, m, n, index);
-	std::cout << "Col of index erase" << std::endl;
+	std::cout << "Erasing col of index... --opt\t";
+	Erase_col_opt(arr, m, n, index);
+	std::cout << "Col of index erase --opt" << std::endl;
 
 	DELIMETR;
-	Print(arr, m, n);
+	//Print(arr, m, n);
 
 	//Очищаем память.
 	Clear(arr, m);
 	delete[] arr;
 
 #endif //HW_ADD_2021_02_05
+
+#ifdef IZDEVATELSTVO
+
+	int** arr = Allocate(m, n);
+	std::cout << "Memory allocated." << std::endl;
+	std::cout << "Loading data..." << std::endl;
+	FillRand(arr, m, n);
+	Print(arr, m, n);
+	std::cout << "Data loaded." << std::endl;
+	std::wcout << "Appending row down..." << std::endl;
+	Push_row_back_opt(arr, m, n);
+	FillRand(arr[m - 1], n);
+	Print(arr, m, n);
+	std::cout << "Appending comlete!" << std::endl;
+	Clear(arr, m);
+	delete[] arr;
+#endif // IZDEVATELSTVO
 
 	std::cout << "\nПрограмма завершена.\n";
 }
@@ -370,11 +401,11 @@ int** Allocate(const int m, const int n)
 	return arr;
 }
 
-void FillRand(int arr[], const int n)
+void FillRand(int arr[], const int n, int minRand, int maxRand)
 {
 	for (int i = 0; i < n; i++)
 	{
-		arr[i] = rand()%100;
+		arr[i] = rand() % (maxRand - minRand) + minRand;
 	}
 }
 void FillRand(int** arr, const int m, const int n)
@@ -475,6 +506,21 @@ void Push_row_back(int**& arr, int& m, const int n)
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
 }
+void Push_row_back_opt(int**& arr, int& m, const int n)
+{//Добавляет строку в конец двумерного динамического массива
+	int** buffer = new int* [++m];
+	
+	for (int i = 0; i < m -1; i++)
+	{
+			buffer[i] = arr[i];
+	}
+
+	delete[] arr;
+
+	arr = buffer;
+
+	buffer[m-1] = new int [n] {};
+}
 void Push_row_front(int**& arr, int& m, const int n)
 {//Добавляет строку в начало двумерного динамического массива
 	//1. Создаём буферный массив
@@ -496,7 +542,21 @@ void Push_row_front(int**& arr, int& m, const int n)
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
 }
+void Push_row_front_opt(int**& arr, int& m, const int n)
+{//Добавляет строку в начало двумерного динамического массива
+	int** buffer = new int* [++m];
 
+	for (int i = 0; i < m - 1; i++)
+	{
+		buffer[i + 1] = arr[i];
+	}
+
+	delete[] arr;
+
+	arr = buffer;
+
+	buffer[0] = new int [n] {};
+}
 void Push_col_back(int**& arr, const int m, int& n)
 {//Добавляет столбик в конец двумерного динамического массива
 	//1. Создаём буферный массив
@@ -516,6 +576,20 @@ void Push_col_back(int**& arr, const int m, int& n)
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
 }
+void Push_col_back_opt(int**& arr, const int m, int& n)
+{//Добавляет столбик в конец двумерного динамического массива
+	n++;
+	for (int i = 0; i < m; i++)
+	{
+		int* buffer = new int[n]{};
+		for (int j = 0; j < n - 1; j++)
+		{
+			buffer[j] = arr[i][j];
+		}
+		delete[] arr[i];
+		arr[i] = buffer;
+	}
+}
 void Push_col_front(int**& arr, const int m, int& n)
 {//Добавляет столбик в начало двумерного динамического массива
 	int** buffer = Allocate(m, ++n);
@@ -533,6 +607,21 @@ void Push_col_front(int**& arr, const int m, int& n)
 
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
+}
+void Push_col_front_opt(int**& arr, const int m, int& n)
+{//Добавляет столбик в начало двумерного динамического массива
+	n++;
+	for (int i = 0; i < m; i++)
+	{
+		int* buffer = new int[n] {};
+		for (int j = 0; j < n - 1; j++)
+		{
+			buffer[j+1] = arr[i][j];
+		}
+		delete[] arr[i];
+		arr[i] = buffer;
+	}
+
 }
 
 void Insert_mutable(int*& arr, int& n, int value, int index)
@@ -566,6 +655,7 @@ void Insert_mutable(int*& arr, int& n, int value, int index)
 }
 void Insert_row(int**& arr, int& m, int n, int index)
 {//Вставляет строку в массив по указанному индексу;
+	if (index > m)return;
 	//1. Создаём буферный массив
 	int** buffer = Allocate(++m, n);
 
@@ -596,7 +686,25 @@ void Insert_row(int**& arr, int& m, int n, int index)
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
 }
+void Insert_row_opt(int**& arr, int& m, int n, int index)
+{//Вставляет строку в массив по указанному индексу;
+	if (index > m)return;
+	int** buffer = new int* [++m]{};
 
+	for (int i = 0; i < index; i++)
+	{
+		buffer[i] = arr[i];
+	}
+	for (int i = index; i < m-1; i++)
+	{
+		buffer[i + 1] = arr[i];
+	}
+
+	delete[] arr;
+
+	arr = buffer;
+	arr[index] = new int[n] {};
+}
 void Insert_col(int**& arr, const int m, int& n, int index)
 {//Вставляет столвик в массив по указанному индексу;
 	//1. Создаём буферный массив
@@ -628,6 +736,27 @@ void Insert_col(int**& arr, const int m, int& n, int index)
 
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
+}
+void Insert_col_opt(int**& arr, const int m, int& n, int index)
+{//Вставляет столвик в массив по указанному индексу;
+	
+	if (index >= n)return;
+	n++;
+
+	for (int i = 0; i < m; i++)
+	{
+		int* buffer = new int[n] {};
+		for(int j = 0; j < index; j++)
+		{
+			buffer[j] = arr[i][j];
+		}
+		for (int j = index; j < n - 1; j++)
+		{
+			buffer[j + 1] = arr[i][j];
+		}
+		delete[] arr[i];
+		arr[i] = buffer;
+	}
 }
 
 void Pop_back_mutable(int*& arr, int& n)
@@ -680,6 +809,19 @@ void Pop_row_back(int**& arr, int & m, const int n)
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
 }
+void Pop_row_back_opt(int**& arr, int& m, const int n)
+{//Удаляет строку в конеце двумерного динамического массива
+	int** buffer = new int* [--m];
+
+	for (int i = 0; i < m; i++)
+	{
+		buffer[i] = arr[i];
+	}
+	//delete[] arr[m]; //На всякий случай.
+	delete[] arr;
+
+	arr = buffer;
+}
 void Pop_row_front(int**& arr, int& m, const int n)
 {//Удаляет строку в начале двумерного динамического массива
 	if (m <= 0)return; //Слишком маленький массив для уменьшения
@@ -701,6 +843,20 @@ void Pop_row_front(int**& arr, int& m, const int n)
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
 }
+void Pop_row_front_opt(int**& arr, int& m, const int n)
+{//Удаляет строку в начале двумерного динамического массива
+	int** buffer = new int* [--m];
+
+	for (int i = 0; i < m; i++)
+	{
+		buffer[i] = arr[i + 1];
+	}
+	//delete[] arr[0]; //На всякий случай.
+	delete[] arr;
+
+	arr = buffer;
+}
+
 void Pop_col_back(int**& arr, const int m, int& n)
 {//Удаляет столбик в конеце двумерного динамического массива
 	if (n <= 0)return; //Слишком маленький массив для уменьшения
@@ -721,6 +877,20 @@ void Pop_col_back(int**& arr, const int m, int& n)
 
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
+}
+void Pop_col_back_opt(int**& arr, const int m, int& n)
+{//Удаляет столбик в конеце двумерного динамического массива
+	n--;
+	for (int i = 0; i < m; i++)
+	{
+		int* buffer = new int[n] {};
+		for (int j = 0; j < n; j++)
+		{
+			buffer[j] = arr[i][j];
+		}
+		delete[] arr[i];
+		arr[i] = buffer;
+	}
 }
 void Pop_col_front(int**& arr, const int m, int& n)
 {//Удаляет столбик в начале двумерного динамического массива
@@ -743,6 +913,20 @@ void Pop_col_front(int**& arr, const int m, int& n)
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
 
+}
+void Pop_col_front_opt(int**& arr, const int m, int& n)
+{//Удаляет столбик в начале двумерного динамического массива
+	n--;
+	for (int i = 0; i < m; i++)
+	{
+		int* buffer = new int[n] {};
+		for (int j = 0; j < n; j++)
+		{
+			buffer[j] = arr[i][j+ 1];
+		}
+		delete[] arr[i];
+		arr[i] = buffer;
+	}
 }
 
 void Erase_mutable(int*& arr, int& n, int index)
@@ -797,6 +981,23 @@ void Erase_row(int**& arr, int& m, const int n, int index)
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
 }
+void Erase_row_opt(int**& arr, int& m, const int n, int index)
+{//Удаляет строку из двумерного динамического массива по указанному индексу
+	if (index < 0 || index>m)return;
+
+	int** buffer = new int* [--m];
+
+	for (int i = 0; i < index; i++)
+	{
+		buffer[i] = arr[i];
+	}
+	for (int i = index; i < m; i++)
+	{
+		buffer[i] = arr[i + 1];
+	}
+	delete[] arr;
+	arr = buffer;
+}
 void Erase_col(int**& arr, const int m, int& n, int index)
 {//Удаляет столбик из двумерного динамического массива по указанному индексу
 	if (n <= 0)return; //Слишком маленький массив для уменьшения
@@ -824,6 +1025,25 @@ void Erase_col(int**& arr, const int m, int& n, int index)
 
 	//4. Подменяем указатель на адрес нового массива.
 	arr = buffer;
+}
+void Erase_col_opt(int**& arr, const int m, int& n, int index)
+{//Удаляет столбик из двумерного динамического массива по указанному индексу
+	if (index<0 || index>n)return;
+	n--;
+	for (int i = 0; i < m; i++)
+	{
+		int* buffer = new int [n] {};
+		for (int j = 0; j < index; j++)
+		{
+			buffer[j] = arr[i][j];
+		}
+		for (int j = index; j < n; j++)
+		{
+			buffer[j] = arr[i][j + 1];
+		}
+		delete[] arr[i];
+		arr[i] = buffer;
+	}
 }
 
 void Clear(int** arr, const int m)
