@@ -2,6 +2,8 @@
 
 template<typename T>	T** Allocate(const int m, const int n);
 
+template<typename T>	void Random(T& variable);
+
 int RandomInt(int minRand = 0, int maxRand = 100); //Генератор инта
 float RandomFloat(int minRand = 0, int maxRand = 10, int round = 2); //Генератор флоата
 double RandomDouble(int minRand = 0, int maxRand = 10, int round = 2); //Генератор дабла
@@ -418,6 +420,26 @@ template<typename T>	T** Allocate(const int m, const int n)
 	return arr;
 }
 
+template<typename T>	void Random(T& variable)
+{
+	if (typeid(variable) == typeid(int))
+	{
+		variable = rand() % 100;
+	}
+	else if (typeid(variable) == typeid(float) || typeid(variable) == typeid(double))
+	{
+		variable = double(rand() % 10000) / 100;
+	}
+	else if (typeid(variable) == typeid(char))
+	{
+		variable = rand();
+	}
+	else
+	{
+		variable = T();
+	}
+}
+
 int RandomInt(int minRand, int maxRand)
 {	
 	if (minRand > maxRand)
@@ -484,28 +506,32 @@ void FillRand(int arr[], const int n, int minRand, int maxRand)
 {
 	for (int i = 0; i < n; i++)
 	{	
-		arr[i] = RandomInt(minRand,maxRand);
+		Random(arr[i]);
+		//arr[i] = RandomInt(minRand,maxRand);
 	}
 }
 void FillRand(float arr[], const int n, int minRand, int maxRand, int round)
 {//Для float одномерного массива...
 	for (int i = 0; i < n; i++)
 	{
-		arr[i] = RandomFloat(minRand, maxRand, round);
+		Random(arr[i]);
+		//arr[i] = RandomFloat(minRand, maxRand, round);
 	}
 }
 void FillRand(double arr[], const int n, int minRand, int maxRand, int round)
 {//Для double одномерного массива...
 	for (int i = 0; i < n; i++)
 	{
-		arr[i] = RandomDouble(minRand, maxRand, round);
+		Random(arr[i]);
+		//arr[i] = RandomDouble(minRand, maxRand, round);
 	}
 }
 void FillRand(char arr[], const int n, int minRand, int maxRand)
 {//Для char одномерного массива...
 	for (int i = 0; i < n; i++)
 	{
-			arr[i] = RandomChar(minRand, maxRand);
+		Random(arr[i]);
+		//arr[i] = RandomChar(minRand, maxRand);
 	}
 }
 
@@ -515,7 +541,8 @@ void FillRand(int** arr, const int m, const int n, int minRand, int maxRand)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			arr[i][j] = RandomInt(minRand, maxRand);
+			Random(arr[i][j]);
+			//arr[i][j] = RandomInt(minRand, maxRand);
 		}
 	}
 }
@@ -525,7 +552,8 @@ void FillRand(float** arr, const int m, const int n, int minRand, int maxRand, i
 	{
 		for (int j = 0; j < n; j++)
 		{			
-			arr[i][j] = RandomFloat(minRand, maxRand, round);
+			Random(arr[i][j]);
+			//arr[i][j] = RandomFloat(minRand, maxRand, round);
 		}
 	}
 }
@@ -535,7 +563,8 @@ void FillRand(double** arr, const int m, const int n, int minRand, int maxRand, 
 	{
 		for (int j = 0; j < n; j++)
 		{
-			arr[i][j] = RandomDouble(minRand, maxRand, round);
+			Random(arr[i][j]);
+			//arr[i][j] = RandomDouble(minRand, maxRand, round);
 		}
 	}
 }
@@ -545,7 +574,8 @@ void FillRand(char** arr, const int m, const int n, int minRand, int maxRand)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			arr[i][j] = RandomChar(minRand, maxRand);
+			Random(arr[i][j]);
+			//arr[i][j] = RandomChar(minRand, maxRand);
 		}
 	}
 }
