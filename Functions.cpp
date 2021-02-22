@@ -1,5 +1,4 @@
-#include "Functions.h"
-
+#include<iostream>
 template<typename T>	T** Allocate(const int m, const int n)
 {
 	//1. Создаём массив указателей:

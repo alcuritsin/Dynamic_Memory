@@ -1,5 +1,6 @@
-#include<iostream>
 #pragma once
+#include<iostream>
+#include "Functions.cpp"
 
 template<typename T>	T** Allocate(const int m, const int n);
 

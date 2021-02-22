@@ -1,5 +1,5 @@
 ﻿#include "Functions.h"
-#include "Functions.cpp"
+//#include "Functions.cpp"
 
 #define DELIMETR std::cout <<"==============================================\n"
 
@@ -51,7 +51,7 @@ void erase();	//Удаляет значение из массива по ука�
 
 //#define IZDEVATELSTVO
 
-typedef int data_type; //Псевдоним для типа
+typedef char data_type; //Псевдоним для типа
 
 void main()
 {
